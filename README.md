@@ -33,7 +33,16 @@ The Postage Board is designed to solve a variety of problems/annoyances that you
  - The controller board is designed to mount to the bottom of 3x switches on the top row of your keyboard, [See Pic](https://i.imgur.com/jqfdTKT.jpg).  
  - Because it is mounted to the underside of the switches, the board doesn't take up any extra space beneath the switches.  Many hand wire keyboards end up being 15mm or 20mm thick (distance from the top plate to the bottom) because you need to add extra space for your controller board.  With the Postage Board, you can easily build your keyboard 10mm thick, or possibly even 8mm thick with some trimming of the switch pins.
  - The Postage Board has a USB Type-C connector!  Compared to the Pro Micro having a USB Micro connector, and the Teensy having the *ancient* USB Mini.
- - The Postage Board has space designated for the user to solder on a 3.5mm TRRS headphone jack to be used for split builds using either Serial or I2C communication.  The board has pads ready for you to also solder on 0805-size 4.7k resistors for the I2C lines.  
+ - The Postage Board has space designated for the user to solder on a 3.5mm TRRS headphone jack to be used for split builds using either Serial or I2C communication.  The board has pads ready for you to also solder on 0805-size 4.7k pull-up resistors for the I2C lines, R7 and R8.  You must add the pull-up resistors to use I2C either on the module side or the far side of the connection, but you don't need to do both.  The I2C pinout is:
+ 
+ | TRRS   | Signal | Pin  | Board | 
+ |:------:|:------:|:----:|:-----:|
+ | Tip    | +VDC   |      | VDC   |
+ | Ring 1 | SCL    | PD0  | D0    |
+ | Ring 2 | SDA    | PD1  | D1    |
+ | Sleeve | GND    |      | GND   |
+
+Note: Remember to not use D0 and D1 board connections for your local matrix when using I2C. To use the Atmel hardware UART communication on the board's TRRS you would need to jumper PD2 and PD3 to PD0 and PD1 and configure PD0.D1 for floating input to avoid causing disruption to the UART lines, so D0..D3 are unusable for your matrix when using UART over this connector.  You can wire up a different connector for UART directly to D2 and D3 and still use D0 and D1 for matrix.
 
 **Is the Postage Board compatible with QMK firmware?  How do I make the firmware?**
 
